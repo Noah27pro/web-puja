@@ -484,6 +484,7 @@ document.getElementById('m-submit').onclick = () => {
 
 document.getElementById('p-cancel').onclick = () => pOverlay.classList.remove('open');
 document.getElementById('p-stripe').onclick = async () => {
+  const name = document.getElementById('m-name').value.trim();
   const title = document.getElementById('m-title').value.trim();
   const pitch = document.getElementById('m-pitch').value.trim();
   const cat = mCat.value;
@@ -493,7 +494,7 @@ document.getElementById('p-stripe').onclick = async () => {
     const response = await fetch('http://localhost:3000/api/create-checkout-session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, pitch, cat, price })
+      body: JSON.stringify({ name, title, pitch, cat, price })
     });
     const { url } = await response.json();
     window.location.href = url;

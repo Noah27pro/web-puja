@@ -24,7 +24,7 @@ app.post('/api/webhook', express.raw({type: 'application/json'}), async (req, re
 
     if (event.type === 'checkout.session.completed') {
         const session = event.data.object;
-        const { title, price } = session.metadata;
+        const { title, price, user } = session.metadata;
 
         // Actualizar Ranking
         let ideas = JSON.parse(fs.readFileSync(DB_PATH, 'utf8'));
@@ -33,6 +33,7 @@ app.post('/api/webhook', express.raw({type: 'application/json'}), async (req, re
         if (ideaIndex !== -1) {
             ideas[ideaIndex].price = parseInt(price);
             ideas[ideaIndex].mins = 0;
+            if(user) ideas[ideaIndex].user = user;
         } else {
             ideas.push({
                 id: Date.now().toString(),
@@ -40,12 +41,13 @@ app.post('/api/webhook', express.raw({type: 'application/json'}), async (req, re
                 pitch: session.metadata.pitch || 'Sin descripción',
                 cat: session.metadata.cat || 'General',
                 price: parseInt(price),
-                mins: 0
+                mins: 0,
+                user: user || 'Anónimo'
             });
         }
 
         fs.writeFileSync(DB_PATH, JSON.stringify(ideas, null, 2));
-        console.log(`✅ Ranking actualizado: ${title} ahora tiene ${price}€`);
+        console.log(`✅ Ranking actualizado: ${title} (por ${user || 'Anónimo'}) ahora tiene ${price}€`);
     }
 
     res.json({received: true});
@@ -62,7 +64,7 @@ app.get('/api/ranking', (req, res) => {
 
 // Crear Sesión de Pago
 app.post('/api/create-checkout-session', async (req, res) => {
-    const { title, pitch, cat, price } = req.body;
+    const { name, title, pitch, cat, price } = req.body;
 
     try {
         const session = await stripe.checkout.sessions.create({
@@ -81,7 +83,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
             mode: 'payment',
             success_url: `http://localhost:3000?success=true`,
             cancel_url: `http://localhost:3000?canceled=true`,
-            metadata: { title, pitch, cat, price: price.toString() }
+            metadata: { name, title, pitch, cat, price: price.toString() }
         });
 
         res.json({ url: session.url });
