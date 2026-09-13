@@ -240,7 +240,7 @@
     <textarea id="m-pitch" maxlength="140" placeholder="Una frase que explique la idea"></textarea>
     <label>Categoría</label>
     <select id="m-cat"></select>
-    <label>Tu puja ($)</label>
+    <label>Tu puja (€)</label>
     <input id="m-price" type="number" min="1" placeholder="Ej: 500">
     <div class="modal-actions">
       <button class="btn-cancel" id="m-cancel">Cancelar</button>
@@ -278,9 +278,7 @@ let ideas = [
 let activeCat = "Todas";
 let activeTab = "alltime";
 let activity = [
-  {who:"alguien anónimo", verb:"pujó por", what:"Máquina expendedora que da consejos", price:8412, when:"hace 3 min"},
-  {who:"un vecino curioso", verb:"propuso", what:"Cinta de embalaje compostable", price:6050, when:"hace 40 min"},
-  {who:"una idealista", verb:"pujó por", what:"App de citas del lavavajillas", price:4300, when:"hace 2 h"},
+  {who:"Usuario Anónimo", verb:"propuso", what:"Una idea increíble para empezar", price:1, when:"hace 10 min"},
 ];
 
 const board = document.getElementById('board');
@@ -289,7 +287,7 @@ const chipsEl = document.getElementById('chips');
 const countLabel = document.getElementById('count-label');
 const activityList = document.getElementById('activity-list');
 
-function fmt(n){ return '$' + n.toLocaleString('en-US'); }
+function fmt(n){ return n.toLocaleString('es-ES') + '€'; }
 
 function sorted(){
   let list = [...ideas];
@@ -349,7 +347,7 @@ function renderBoard(list){
       </div>
       <div class="row-price">
         <span class="amt">${fmt(idea.price)}</span>
-        <button data-title="${idea.title}">pujar $${idea.price+1}</button>
+        <button data-title="${idea.title}">pujar €${idea.price+1}</button>
       </div>
     `;
     row.querySelector('button').onclick = () => claim(idea, idea.price + 1);
