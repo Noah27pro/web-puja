@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>luxutain.men — lidera el ranking con tu idea</title>
-<script src="https://js.stripe.com/v3/"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -235,8 +234,6 @@
   <div class="modal">
     <h3 id="m-title-modal">Publica la idea que tienes en mente</h3>
     <p class="desc" id="m-desc-modal">Escríbela y decide cuánto inviertes. Cuanto más pagues por encima de las demás, más arriba aparecerás en el ranking.</p>
-    <label>Tu nombre</label>
-    <input id="m-name" maxlength="50" placeholder="Ej: Juan Pérez">
     <label>Título de la idea</label>
     <input id="m-title" maxlength="70" placeholder="Ej: Paraguas que se prestan entre desconocidos">
     <label>Descripción breve</label>
@@ -267,7 +264,7 @@
       </div>
       <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px;">
         <span>Método:</span>
-        <strong style="color: var(--violet);">Tarjeta / Stripe</strong>
+        <strong style="color: var(--violet);">Bizum</strong>
       </div>
       <div style="display: flex; justify-content: space-between; border-top: 1px solid var(--panel-line); padding-top: 10px; margin-top: 10px; font-size: 18px; font-weight: 700;">
         <span>Total a pagar:</span>
@@ -276,25 +273,22 @@
     </div>
 
     <div style="background: var(--void); border: 2px dashed var(--glow); padding: 15px; text-align: center; border-radius: 10px; margin-bottom: 20px;">
-      <span style="display: block; color: var(--muted); font-size: 12px; margin-bottom: 5px;">Procesando pago seguro a través de:</span>
-      <strong style="font-size: 24px; color: var(--ink); font-family: 'IBM Plex Mono';">STRIPE</strong>
+      <span style="display: block; color: var(--muted); font-size: 12px; margin-bottom: 5px;">Envía el monto al número:</span>
+      <strong style="font-size: 24px; color: var(--ink); font-family: 'IBM Plex Mono';">681 87 68 85</strong>
     </div>
 
     <p style="font-size: 12px; color: var(--muted); text-align: center; margin-bottom: 20px;">
-      Serás redirigido a la pasarela de Stripe para completar el pago de forma segura.
+      Una vez realizado el envío, pulsa el botón inferior para enviar el comprobante y activar tu puesto en el ranking.
     </p>
 
     <div class="modal-actions">
       <button class="btn-cancel" id="p-cancel">Cancelar</button>
-      <button class="btn-submit" id="p-stripe">Ir a Pagar Ahora</button>
+      <button class="btn-submit" id="p-whatsapp">Confirmar Pago</button>
     </div>
   </div>
 </div>
 
 <script>
-const STRIPE_PUBLIC_KEY = 'pk_test_51UF04dGYkCvLO2WdVtcpGqroKcFMDXpF6boz85umtQooZeolEm4bT7H3D5peMH0nAgYmnsGzMKMxoDeqBP90moA500XM3hYthr';
-const stripe = Stripe(STRIPE_PUBLIC_KEY);
-
 const CATEGORIES = ["Todas","Rara","Tecnología","Sostenibilidad","Bien social","Social","Juegos","Negocio","Arte","Comida"];
 
 let ideas = [
@@ -483,23 +477,12 @@ document.getElementById('m-submit').onclick = () => {
 };
 
 document.getElementById('p-cancel').onclick = () => pOverlay.classList.remove('open');
-document.getElementById('p-stripe').onclick = async () => {
+document.getElementById('p-whatsapp').onclick = () => {
   const title = document.getElementById('m-title').value.trim();
-  const pitch = document.getElementById('m-pitch').value.trim();
-  const cat = mCat.value;
-  const price = parseInt(document.getElementById('m-price').value, 10);
-
-  try {
-    const response = await fetch('http://localhost:3000/api/create-checkout-session', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, pitch, cat, price })
-    });
-    const { url } = await response.json();
-    window.location.href = url;
-  } catch (e) {
-    alert('Error al conectar con la pasarela de pago. Asegúrate de que el servidor esté corriendo.');
-  }
+  const price = document.getElementById('m-price').value;
+  const message = `Hola! He enviado ${price}€ por Bizum para subir al ranking la idea: "${title}". Adjunto el comprobante.`;
+  window.open(`https://wa.me/681876885?text=${encodeURIComponent(message)}`, '_blank');
+  pOverlay.classList.remove('open');
 };
 
 render();
