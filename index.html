@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>luxutain.men — reclama el puesto #1 con tu idea</title>
+<script src="https://js.stripe.com/v3/"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -250,6 +251,9 @@
 </div>
 
 <script>
+const STRIPE_PUBLIC_KEY = 'pk_test_51UF04dGYkCvLO2WdVtcpGqroKcFMDXpF6boz85umtQooZeolEm4bT7H3D5peMH0nAgYmnsGzMKMxoDeqBP90moA500XM3hYthr';
+const stripe = Stripe(STRIPE_PUBLIC_KEY);
+
 const CATEGORIES = ["Todas","Rara","Tecnología","Sostenibilidad","Bien social","Social","Juegos","Negocio","Arte","Comida"];
 
 let ideas = [
