@@ -1,0 +1,56 @@
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+const DB_PATH = path.join(__dirname, 'database.json');
+
+app.use(cors());
+app.use(express.json());
+
+// Obtener Ranking
+app.get('/api/ranking', (req, res) => {
+    try {
+        const ideas = JSON.parse(fs.readFileSync(DB_PATH, 'utf8'));
+        res.json(ideas);
+    } catch (e) {
+        res.status(500).json({ error: "Error leyendo la base de datos" });
+    }
+});
+
+// Actualizar Ranking (RUTA DE ADMIN)
+// En un caso real, esto tendría una contraseña.
+app.post('/api/admin/update', (req, res) => {
+    const { title, price, pitch, cat } = req.body;
+
+    try {
+        let ideas = JSON.parse(fs.readFileSync(DB_PATH, 'utf8'));
+        const ideaIndex = ideas.findIndex(i => i.title === title);
+
+        if (ideaIndex !== -1) {
+            ideas[ideaIndex].price = parseInt(price);
+            ideas[ideaIndex].mins = 0;
+        } else {
+            ideas.push({
+                id: Date.now().toString(),
+                title: title,
+                pitch: pitch || 'Sin descripción',
+                cat: cat || 'General',
+                price: parseInt(price),
+                mins: 0
+            });
+        }
+
+        fs.writeFileSync(DB_PATH, JSON.stringify(ideas, null, 2));
+        res.json({ success: true, message: "Ranking actualizado" });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.listen(PORT, () => {
+    console.log(`🚀 Servidor de Ranking corriendo en http://localhost:${PORT}`);
+});
