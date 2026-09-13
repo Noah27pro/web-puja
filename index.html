@@ -327,6 +327,8 @@ const hero = document.getElementById('hero');
 const chipsEl = document.getElementById('chips');
 const countLabel = document.getElementById('count-label');
 const activityList = document.getElementById('activity-list');
+const overlay = document.getElementById('modal-overlay');
+const pOverlay = document.getElementById('payment-overlay');
 
 function fmt(n){ return n.toLocaleString('es-ES') + '€'; }
 
@@ -450,8 +452,6 @@ function setTab(){
 }
 
 // Submit-idea modal
-const overlay = document.getElementById('modal-overlay');
-const pOverlay = document.getElementById('payment-overlay');
 const mCat = document.getElementById('m-cat');
 CATEGORIES.filter(c => c !== 'Todas').forEach(c => {
   const o = document.createElement('option'); o.value = c; o.textContent = c; mCat.appendChild(o);
@@ -469,7 +469,6 @@ document.getElementById('m-submit').onclick = () => {
     return;
   }
 
-  // Configurar la "Pasarela de Pago"
   document.getElementById('p-idea-name').textContent = title;
   document.getElementById('p-total-amount').textContent = price + '€';
 
