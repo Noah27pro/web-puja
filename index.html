@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>luxutain.men — reclama el puesto #1 con tu idea</title>
+<title>luxutain.men — lidera el ranking con tu idea</title>
 <script src="https://js.stripe.com/v3/"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -204,7 +204,7 @@
     </nav>
   </header>
 
-  <p class="tagline">¿Tienes una idea en mente? Publícala y puja para que sea la primera que vea todo el mundo. Sin votos ni algoritmos: gana quien más puja.</p>
+  <p class="tagline">¿Tienes una idea brillante? Publícala y sube en el ranking pagando más que el anterior. Sin algoritmos: el puesto #1 es para quien más invierte.</p>
 
   <div class="hero-label">La idea #1 en este momento</div>
   <div class="hero" id="hero"></div>
@@ -224,12 +224,12 @@
   </div>
 
   <footer>
-    Sitio ficticio de demostración, inspirado en el formato de outbid.lol — pero con ideas en vez de productos.<br>
-    Nadie paga dinero real aquí. Puja con imaginación.
+    Sitio ficticio de demostración — Ranking de ideas basado en inversión.<br>
+    Nadie paga dinero real aquí. Invierte con imaginación.
   </footer>
 </div>
 
-<button class="submit-fab" id="open-submit">+ Publica tu idea y puja</button>
+<button class="submit-fab" id="open-submit">+ Publica tu idea y sube al ranking</button>
 
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
@@ -241,11 +241,11 @@
     <textarea id="m-pitch" maxlength="140" placeholder="Una frase que explique la idea"></textarea>
     <label>Categoría</label>
     <select id="m-cat"></select>
-    <label>Tu puja (€)</label>
+    <label>Tu inversión (€)</label>
     <input id="m-price" type="number" min="1" placeholder="Ej: 500">
     <div class="modal-actions">
       <button class="btn-cancel" id="m-cancel">Cancelar</button>
-      <button class="btn-submit" id="m-submit">Publicar idea</button>
+      <button class="btn-submit" id="m-submit">Publicar e invertir</button>
     </div>
   </div>
 </div>
@@ -296,18 +296,18 @@ function renderHero(list){
   const top = list[0];
   if(!top){ hero.innerHTML = '<p>No hay ideas en esta categoría todavía. Sé el primero.</p>'; return; }
   hero.innerHTML = `
-    <div class="rank1">✦ Puesto número uno</div>
+    <div class="rank1">✦ Líder del Ranking</div>
     <h1>${top.title}</h1>
     <p class="pitch">${top.pitch}</p>
     <div class="meta">
       <span class="tag">${top.cat}</span>
-      <span class="price-big">${fmt(top.price)} <small>puja actual</small></span>
+      <span class="price-big">${fmt(top.price)} <small>monto actual</small></span>
     </div>
     <div class="bid-row">
       <input class="bid-input" id="hero-bid" type="number" value="${top.price + 1}">
-      <button class="claim-btn" id="hero-claim">Superar esta puja</button>
+      <button class="claim-btn" id="hero-claim">Reclamar puesto #1</button>
     </div>
-    <div class="hint">Si tu idea vale más de ${fmt(top.price)} para ti, pújala y toma el puesto #1.</div>
+    <div class="hint">Para liderar el ranking, tu aportación debe ser superior a ${fmt(top.price)}.</div>
   `;
   document.getElementById('hero-claim').onclick = () => claim(top, document.getElementById('hero-bid').value);
 }
@@ -332,7 +332,7 @@ function renderBoard(list){
       </div>
       <div class="row-price">
         <span class="amt">${fmt(idea.price)}</span>
-        <button data-title="${idea.title}">pujar €${idea.price+1}</button>
+        <button data-title="${idea.title}">Subir ranking €${idea.price+1}</button>
       </div>
     `;
     row.querySelector('button').onclick = () => claim(idea, idea.price + 1);
@@ -350,12 +350,12 @@ function timeLabel(mins){
 function claim(idea, rawAmount){
   const amount = parseInt(rawAmount, 10);
   if(!amount || amount <= idea.price){
-    alert('La puja debe ser mayor que ' + fmt(idea.price) + '.');
+    alert('La inversión debe ser mayor que ' + fmt(idea.price) + '.');
     return;
   }
   idea.price = amount;
   idea.mins = 0;
-  activity.unshift({who:'tú', verb:'pujaste por', what: idea.title, price: amount, when:'ahora mismo'});
+  activity.unshift({who:'tú', verb:'has subido el ranking de', what: idea.title, price: amount, when:'ahora mismo'});
   activity = activity.slice(0, 6);
   render();
   requestAnimationFrame(() => {
@@ -408,7 +408,7 @@ document.getElementById('m-submit').onclick = () => {
     return;
   }
   ideas.push({title, pitch: pitch || 'Sin descripción todavía.', cat, price, mins: 0});
-  activity.unshift({who:'tú', verb:'propusiste', what:title, price, when:'ahora mismo'});
+  activity.unshift({who:'tú', verb:'entró al ranking con', what:title, price, when:'ahora mismo'});
   activity = activity.slice(0, 6);
   overlay.classList.remove('open');
   document.getElementById('m-title').value = '';
