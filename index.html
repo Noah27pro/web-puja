@@ -244,23 +244,46 @@
     <input id="m-price" type="number" min="1" placeholder="Ej: 500">
     <div class="modal-actions">
       <button class="btn-cancel" id="m-cancel">Cancelar</button>
-      <button class="btn-submit" id="m-submit">Continuar al pago</button>
+      <button class="btn-submit" id="m-submit">Pagar y publicar</button>
     </div>
   </div>
 </div>
 
 <div class="modal-overlay" id="payment-overlay">
-  <div class="modal">
-    <h3>💳 Instrucciones de Pago</h3>
-    <p class="desc">Para confirmar tu puesto en el ranking, debes enviar el monto indicado a través de <strong>Bizum</strong>.</p>
-    <div style="background: var(--void); border: 1px dashed var(--glow); padding: 15px; text-align: center; margin: 20px 0; border-radius: 10px;">
-      <span style="display: block; color: var(--muted); font-size: 12px; margin-bottom: 5px;">Enviar monto a:</span>
-      <strong style="font-size: 22px; color: var(--ink); font-family: 'IBM Plex Mono';">681 87 68 85</strong>
+  <div class="modal" style="max-width: 450px;">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <div style="background: var(--glow); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 24px;">💳</div>
+      <h3 style="margin: 0;">Pasarela de Pago Seguro</h3>
+      <p class="desc">Finaliza tu inversión para subir al ranking</p>
     </div>
-    <p id="payment-detail" style="font-size: 14px; text-align: center; margin-bottom: 20px; font-weight: 600;"></p>
+
+    <div style="background: #f9f9f9; border: 1px solid var(--panel-line); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px;">
+        <span>Concepto:</span>
+        <strong id="p-idea-name">Idea</strong>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px;">
+        <span>Método:</span>
+        <strong style="color: var(--violet);">Bizum</strong>
+      </div>
+      <div style="display: flex; justify-content: space-between; border-top: 1px solid var(--panel-line); padding-top: 10px; margin-top: 10px; font-size: 18px; font-weight: 700;">
+        <span>Total a pagar:</span>
+        <span id="p-total-amount" style="color: var(--glow);">0€</span>
+      </div>
+    </div>
+
+    <div style="background: var(--void); border: 2px dashed var(--glow); padding: 15px; text-align: center; border-radius: 10px; margin-bottom: 20px;">
+      <span style="display: block; color: var(--muted); font-size: 12px; margin-bottom: 5px;">Envía el monto al número:</span>
+      <strong style="font-size: 24px; color: var(--ink); font-family: 'IBM Plex Mono';">681 87 68 85</strong>
+    </div>
+
+    <p style="font-size: 12px; color: var(--muted); text-align: center; margin-bottom: 20px;">
+      Una vez realizado el envío, pulsa el botón inferior para enviar el comprobante y activar tu puesto en el ranking.
+    </p>
+
     <div class="modal-actions">
       <button class="btn-cancel" id="p-cancel">Cancelar</button>
-      <button class="btn-submit" id="p-whatsapp">Confirmar por WhatsApp</button>
+      <button class="btn-submit" id="p-whatsapp">Confirmar Pago</button>
     </div>
   </div>
 </div>
@@ -428,8 +451,10 @@ document.getElementById('m-submit').onclick = () => {
     return;
   }
 
-  // Mostrar modal de pago
-  document.getElementById('payment-detail').textContent = `Monto a enviar: ${price}€ por la idea "${title}"`;
+  // Configurar la "Pasarela de Pago"
+  document.getElementById('p-idea-name').textContent = title;
+  document.getElementById('p-total-amount').textContent = price + '€';
+
   overlay.classList.remove('open');
   pOverlay.classList.add('open');
 };
