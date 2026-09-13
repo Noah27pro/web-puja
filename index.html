@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>luxutain.men — reclama el puesto #1 con tu idea</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#fdfbf7;
+    --panel:#ffffff;
+    --panel-line:#e8e3d6;
+    --glow:#ff6a1a;
+    --glow-dim:#ffcda3;
+    --violet:#2f9e60;
+    --ink:#221f18;
+    --muted:#8a8577;
+    --good:#2f9e60;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1000px 460px at 12% -8%, rgba(255,106,26,0.09), transparent 55%),
+      radial-gradient(900px 420px at 92% 0%, rgba(47,158,96,0.08), transparent 55%),
+      var(--void);
+    color:var(--ink);
+    font-family:'Public Sans', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px;}
+
+  header{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:28px 0 20px;border-bottom:1px solid var(--panel-line);
+    margin-bottom:36px;
+  }
+  .logo{
+    font-family:'Fraunces', serif;font-weight:600;font-size:20px;color:var(--ink);
+    display:flex;align-items:baseline;gap:6px;
+    font-variant-ligatures:none;font-feature-settings:"liga" 0,"dlig" 0,"clig" 0;
+  }
+  .logo span{color:var(--glow);}
+  nav.tabs{display:flex;gap:4px;background:var(--panel);border:1px solid var(--panel-line);border-radius:999px;padding:3px;}
+  nav.tabs button{
+    background:none;border:none;color:var(--muted);font:500 13px 'Public Sans';
+    padding:6px 14px;border-radius:999px;cursor:pointer;transition:background .15s, color .15s;
+  }
+  nav.tabs button.active{background:var(--glow);color:#fff;}
+
+  .hero-label{font:500 14px 'Public Sans';color:var(--muted);margin-bottom:10px;}
+  .tagline{font-size:15px;color:#57543f;max-width:52ch;margin:0 0 26px;}
+  .hero{
+    border:1px solid var(--glow-dim);
+    border-radius:18px;
+    padding:34px 30px;
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(180deg, rgba(255,106,26,0.06), rgba(47,158,96,0.03));
+    box-shadow:0 0 0 1px rgba(255,106,26,0.05), 0 30px 60px -30px rgba(255,106,26,0.22);
+  }
+  .hero::before{
+    content:"";position:absolute;top:-60%;left:50%;transform:translateX(-50%);
+    width:420px;height:420px;border-radius:50%;
+    background:radial-gradient(circle, rgba(255,106,26,0.16), transparent 65%);
+    pointer-events:none;
+  }
+  .hero .rank1{
+    font:600 13px 'IBM Plex Mono';color:var(--glow);letter-spacing:.02em;
+    margin-bottom:10px;position:relative;
+  }
+  .hero h1{
+    font-family:'Fraunces', serif;font-weight:600;font-size:clamp(24px,4vw,32px);
+    margin:0 0 10px;position:relative;line-height:1.15;
+  }
+  .hero p.pitch{margin:0 0 22px;color:#cfccdb;max-width:56ch;position:relative;}
+  .hero .meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;position:relative;}
+  .tag{
+    font:500 12px 'Public Sans';color:var(--violet);border:1px solid rgba(47,158,96,.35);
+    padding:3px 10px;border-radius:999px;background:rgba(47,158,96,.08);
+  }
+  .price-big{font:600 26px 'IBM Plex Mono';color:var(--ink);}
+  .price-big small{font-size:13px;color:var(--muted);font-family:'Public Sans';font-weight:400;}
+
+  .bid-row{
+    display:flex;gap:10px;margin-top:22px;position:relative;flex-wrap:wrap;
+  }
+  input.bid-input{
+    flex:1;min-width:140px;background:var(--void);border:1px solid var(--panel-line);
+    color:var(--ink);border-radius:10px;padding:12px 14px;font:600 15px 'IBM Plex Mono';
+  }
+  input.bid-input:focus{outline:none;border-color:var(--glow);}
+  button.claim-btn{
+    background:var(--glow);color:#fff;border:none;border-radius:10px;
+    padding:12px 20px;font:600 14px 'Public Sans';cursor:pointer;transition:filter .15s, transform .1s;
+    white-space:nowrap;
+  }
+  button.claim-btn:hover{filter:brightness(1.08);}
+  button.claim-btn:active{transform:scale(.98);}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;position:relative;}
+
+  .section-title{
+    display:flex;align-items:baseline;justify-content:space-between;
+    margin:44px 0 14px;
+  }
+  .section-title h2{font-family:'Fraunces', serif;font-weight:500;font-size:19px;margin:0;}
+  .section-title .sub{font-size:13px;color:var(--muted);}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+  .chip{
+    font:500 13px 'Public Sans';color:var(--muted);border:1px solid var(--panel-line);
+    padding:6px 13px;border-radius:999px;cursor:pointer;background:var(--panel);
+    transition:border-color .15s, color .15s;
+  }
+  .chip.active{color:var(--ink);border-color:var(--violet);background:rgba(47,158,96,.1);}
+
+  .board{border-top:1px solid var(--panel-line);}
+  .row{
+    display:grid;grid-template-columns:34px 1fr auto;gap:14px;
+    padding:16px 0;border-bottom:1px solid var(--panel-line);align-items:start;
+  }
+  .rank-num{font:600 15px 'IBM Plex Mono';color:var(--muted);padding-top:2px;}
+  .row.r1 .rank-num, .row.r2 .rank-num, .row.r3 .rank-num{color:var(--glow);}
+  .idea-title{font:600 15px 'Public Sans';margin:0 0 4px;}
+  .idea-pitch{font-size:13.5px;color:#6f6b5c;margin:0 0 8px;max-width:52ch;}
+  .row-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  .row-meta .cat{font-size:12px;color:var(--violet);}
+  .row-meta .time{font-size:12px;color:var(--muted);}
+  .row-price{text-align:right;}
+  .row-price .amt{font:600 16px 'IBM Plex Mono';display:block;}
+  .row-price button{
+    margin-top:8px;background:none;border:1px solid var(--panel-line);color:var(--muted);
+    font:500 12px 'Public Sans';padding:5px 10px;border-radius:8px;cursor:pointer;
+  }
+  .row-price button:hover{border-color:var(--glow);color:var(--glow);}
+
+  .flash{animation:flash .9s ease;}
+  @keyframes flash{
+    0%{background:rgba(255,106,26,0.14);}
+    100%{background:transparent;}
+  }
+
+  .activity{
+    margin-top:44px;border:1px solid var(--panel-line);border-radius:14px;
+    padding:18px 20px;background:var(--panel);
+  }
+  .activity h3{font:500 14px 'Public Sans';color:var(--muted);margin:0 0 12px;}
+  .activity ul{list-style:none;margin:0;padding:0;}
+  .activity li{
+    font-size:13.5px;padding:8px 0;border-top:1px solid var(--panel-line);color:#57543f;
+  }
+  .activity li:first-child{border-top:none;}
+  .activity li .who{color:var(--ink);font-weight:600;}
+  .activity li .when{color:var(--muted);float:right;}
+
+  .submit-fab{
+    position:fixed;bottom:26px;right:26px;background:var(--violet);color:#fff;
+    border:none;border-radius:999px;padding:14px 22px;font:600 14px 'Public Sans';
+    cursor:pointer;box-shadow:0 12px 30px -10px rgba(47,158,96,.55);
+  }
+
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(10,10,16,.7);display:none;
+    align-items:center;justify-content:center;padding:20px;z-index:20;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    background:var(--panel);border:1px solid var(--panel-line);border-radius:16px;
+    padding:26px;max-width:420px;width:100%;
+  }
+  .modal h3{font-family:'Fraunces', serif;font-weight:600;margin:0 0 4px;font-size:20px;}
+  .modal p.desc{color:var(--muted);font-size:13.5px;margin:0 0 18px;}
+  .modal label{display:block;font-size:12.5px;color:var(--muted);margin:14px 0 6px;}
+  .modal input, .modal select, .modal textarea{
+    width:100%;background:var(--void);border:1px solid var(--panel-line);color:var(--ink);
+    border-radius:9px;padding:10px 12px;font:14px 'Public Sans';resize:vertical;
+  }
+  .modal textarea{min-height:60px;}
+  .modal-actions{display:flex;gap:10px;margin-top:22px;}
+  .modal-actions button{flex:1;border-radius:10px;padding:11px;font:600 14px 'Public Sans';cursor:pointer;border:none;}
+  .btn-cancel{background:transparent;border:1px solid var(--panel-line) !important;color:var(--muted);}
+  .btn-submit{background:var(--glow);color:#fff;}
+
+  footer{margin-top:60px;text-align:center;color:var(--muted);font-size:12.5px;border-top:1px solid var(--panel-line);padding-top:24px;}
+  footer a{color:var(--muted);}
+
+  @media (max-width:520px){
+    .row{grid-template-columns:26px 1fr;}
+    .row-price{grid-column:1 / -1;text-align:left;display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="logo">luxutain<span>.men</span></div>
+    <nav class="tabs">
+      <button id="tab-alltime" class="active">Histórico</button>
+      <button id="tab-today">Hoy</button>
+    </nav>
+  </header>
+
+  <p class="tagline">¿Tienes una idea en mente? Publícala y puja para que sea la primera que vea todo el mundo. Sin votos ni algoritmos: gana quien más puja.</p>
+
+  <div class="hero-label">La idea #1 en este momento</div>
+  <div class="hero" id="hero"></div>
+
+  <div class="section-title">
+    <h2>Tabla de clasificación</h2>
+    <span class="sub" id="count-label"></span>
+  </div>
+
+  <div class="chips" id="chips"></div>
+
+  <div class="board" id="board"></div>
+
+  <div class="activity">
+    <h3>Actividad reciente</h3>
+    <ul id="activity-list"></ul>
+  </div>
+
+  <footer>
+    Sitio ficticio de demostración, inspirado en el formato de outbid.lol — pero con ideas en vez de productos.<br>
+    Nadie paga dinero real aquí. Puja con imaginación.
+  </footer>
+</div>
+
+<button class="submit-fab" id="open-submit">+ Publica tu idea y puja</button>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <h3>Publica la idea que tienes en mente</h3>
+    <p class="desc">Escríbela y decide cuánto pujas. Cuanto más pujes por encima de las demás, más arriba aparecerá y antes se hará el puesto #1.</p>
+    <label>Título de la idea</label>
+    <input id="m-title" maxlength="70" placeholder="Ej: Paraguas que se prestan entre desconocidos">
+    <label>Descripción breve</label>
+    <textarea id="m-pitch" maxlength="140" placeholder="Una frase que explique la idea"></textarea>
+    <label>Categoría</label>
+    <select id="m-cat"></select>
+    <label>Tu puja ($)</label>
+    <input id="m-price" type="number" min="1" placeholder="Ej: 500">
+    <div class="modal-actions">
+      <button class="btn-cancel" id="m-cancel">Cancelar</button>
+      <button class="btn-submit" id="m-submit">Publicar idea</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const CATEGORIES = ["Todas","Rara","Tecnología","Sostenibilidad","Bien social","Social","Juegos","Negocio","Arte","Comida"];
+
+let ideas = [
+  {title:"Máquina expendedora que da consejos en vez de aperitivos", pitch:"Metes una moneda, sale un consejo honesto de un desconocido anónimo.", cat:"Rara", price:8412, mins:14},
+  {title:"Cinta de embalaje compostable con sellos reutilizables", pitch:"Cierra cajas sin dejar residuo plástico detrás.", cat:"Sostenibilidad", price:6050, mins:40},
+  {title:"Caja de suscripción que te envía literalmente nada", pitch:"A propósito: para que por fin ordenes tu casa.", cat:"Rara", price:5220, mins:65},
+  {title:"Auriculares que también cancelan los silencios incómodos", pitch:"Cancelación activa de ruido... y de tensión social.", cat:"Tecnología", price:4900, mins:90},
+  {title:"App de citas que empareja por cómo cargas el lavavajillas", pitch:"La compatibilidad real empieza en la cocina.", cat:"Social", price:4300, mins:120},
+  {title:"Carnet de biblioteca que también es un chequeo emocional", pitch:"Devuelve un libro, cuenta cómo estás, sin presión.", cat:"Bien social", price:3760, mins:150},
+  {title:"IA que escribe tus respuestas automáticas con tu sentido del humor", pitch:"Fuera de la oficina, pero sonando como tú.", cat:"Tecnología", price:3400, mins:180},
+  {title:"Robot diminuto que riega plantas y juzga tus decisiones", pitch:"Con cariño, pero te lo va a decir.", cat:"Rara", price:3120, mins:210},
+  {title:"Farolas que se apagan como un atardecer, no de golpe", pitch:"Menos consumo, más poesía urbana.", cat:"Sostenibilidad", price:2900, mins:240},
+  {title:"Juego de mesa cuyas reglas cambian cada vez que alguien gana", pitch:"Nunca dominas del todo, nunca te aburres del todo.", cat:"Juegos", price:2640, mins:300},
+  {title:"Microseguro para primeras citas", pitch:"Cubre el mal rato, no el corazón roto.", cat:"Negocio", price:2300, mins:360},
+  {title:"Una tipografía que se vuelve ilegible cuanto más enfadado suena tu email", pitch:"El diseño como freno de mano emocional.", cat:"Tecnología", price:2010, mins:420},
+  {title:"Red de neveras solidarias con mapa en vivo de lo que hay dentro", pitch:"Comida que no se desperdicia, vecinos que se cuidan.", cat:"Bien social", price:1860, mins:480},
+  {title:"Gimnasio con máquinas alimentadas por tu propio scroll infinito", pitch:"Convierte el tiempo perdido en energía real.", cat:"Rara", price:1640, mins:540},
+  {title:"Paraguas que se alquilan entre desconocidos y se devuelven en cualquier ciudad", pitch:"Nunca vuelve a llover sobre tu cabeza.", cat:"Sostenibilidad", price:1420, mins:600},
+  {title:"Podcast hecho enteramente de gente intentando recordar sus sueños", pitch:"Diez minutos de niebla mental compartida.", cat:"Arte", price:1150, mins:660},
+  {title:"Menú de restaurante que te muestra cuál fue tu único plato lamentado", pitch:"La carta que aprende de tus arrepentimientos.", cat:"Comida", price:980, mins:720},
+  {title:"Bandeja de entrada compartida solo para 'como bien indiqué en mi último correo'", pitch:"Un archivo colectivo de la paciencia perdida.", cat:"Negocio", price:760, mins:780},
+  {title:"Piano callejero que solo suena en la tonalidad que la cuadra decide", pitch:"Música democrática, una tecla a la vez.", cat:"Arte", price:540, mins:840},
+  {title:"Banco público que dice a cuántos desconocidos sentó hoy", pitch:"Estadísticas silenciosas de descanso compartido.", cat:"Rara", price:310, mins:900},
+];
+
+let activeCat = "Todas";
+let activeTab = "alltime";
+let activity = [
+  {who:"alguien anónimo", verb:"pujó por", what:"Máquina expendedora que da consejos", price:8412, when:"hace 3 min"},
+  {who:"un vecino curioso", verb:"propuso", what:"Cinta de embalaje compostable", price:6050, when:"hace 40 min"},
+  {who:"una idealista", verb:"pujó por", what:"App de citas del lavavajillas", price:4300, when:"hace 2 h"},
+];
+
+const board = document.getElementById('board');
+const hero = document.getElementById('hero');
+const chipsEl = document.getElementById('chips');
+const countLabel = document.getElementById('count-label');
+const activityList = document.getElementById('activity-list');
+
+function fmt(n){ return '$' + n.toLocaleString('en-US'); }
+
+function sorted(){
+  let list = [...ideas];
+  if(activeTab === 'today') list = list.filter(i => i.mins <= 480);
+  if(activeCat !== 'Todas') list = list.filter(i => i.cat === activeCat);
+  return list.sort((a,b) => b.price - a.price);
+}
+
+function renderChips(){
+  chipsEl.innerHTML = '';
+  CATEGORIES.forEach(cat => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (cat === activeCat ? ' active' : '');
+    b.textContent = cat;
+    b.onclick = () => { activeCat = cat; render(); };
+    chipsEl.appendChild(b);
+  });
+}
+
+function renderHero(list){
+  const top = list[0];
+  if(!top){ hero.innerHTML = '<p>No hay ideas en esta categoría todavía. Sé el primero.</p>'; return; }
+  hero.innerHTML = `
+    <div class="rank1">✦ Puesto número uno</div>
+    <h1>${top.title}</h1>
+    <p class="pitch">${top.pitch}</p>
+    <div class="meta">
+      <span class="tag">${top.cat}</span>
+      <span class="price-big">${fmt(top.price)} <small>puja actual</small></span>
+    </div>
+    <div class="bid-row">
+      <input class="bid-input" id="hero-bid" type="number" value="${top.price + 1}">
+      <button class="claim-btn" id="hero-claim">Superar esta puja</button>
+    </div>
+    <div class="hint">Si tu idea vale más de ${fmt(top.price)} para ti, pújala y toma el puesto #1.</div>
+  `;
+  document.getElementById('hero-claim').onclick = () => claim(top, document.getElementById('hero-bid').value);
+}
+
+function renderBoard(list){
+  countLabel.textContent = list.length + (list.length === 1 ? ' idea' : ' ideas');
+  board.innerHTML = '';
+  list.forEach((idea, i) => {
+    const rank = i + 1;
+    const row = document.createElement('div');
+    row.className = 'row r' + rank;
+    row.dataset.title = idea.title;
+    row.innerHTML = `
+      <div class="rank-num">${rank}</div>
+      <div>
+        <p class="idea-title">${idea.title}</p>
+        <p class="idea-pitch">${idea.pitch}</p>
+        <div class="row-meta">
+          <span class="cat">${idea.cat}</span>
+          <span class="time">${timeLabel(idea.mins)}</span>
+        </div>
+      </div>
+      <div class="row-price">
+        <span class="amt">${fmt(idea.price)}</span>
+        <button data-title="${idea.title}">pujar $${idea.price+1}</button>
+      </div>
+    `;
+    row.querySelector('button').onclick = () => claim(idea, idea.price + 1);
+    board.appendChild(row);
+  });
+}
+
+function timeLabel(mins){
+  if(mins < 60) return 'hace ' + mins + ' min';
+  const h = Math.floor(mins/60);
+  if(h < 24) return 'hace ' + h + ' h';
+  return 'hace ' + Math.floor(h/24) + ' d';
+}
+
+function claim(idea, rawAmount){
+  const amount = parseInt(rawAmount, 10);
+  if(!amount || amount <= idea.price){
+    alert('La puja debe ser mayor que ' + fmt(idea.price) + '.');
+    return;
+  }
+  idea.price = amount;
+  idea.mins = 0;
+  activity.unshift({who:'tú', verb:'pujaste por', what: idea.title, price: amount, when:'ahora mismo'});
+  activity = activity.slice(0, 6);
+  render();
+  requestAnimationFrame(() => {
+    const el = [...document.querySelectorAll('.row')].find(r => r.dataset.title === idea.title);
+    if(el) el.classList.add('flash');
+    hero.classList.add('flash');
+  });
+}
+
+function renderActivity(){
+  activityList.innerHTML = '';
+  activity.forEach(a => {
+    const li = document.createElement('li');
+    li.innerHTML = `<span class="who">${a.who}</span> ${a.verb} <em>${a.what}</em> — ${fmt(a.price)} <span class="when">${a.when}</span>`;
+    activityList.appendChild(li);
+  });
+}
+
+function render(){
+  renderChips();
+  const list = sorted();
+  renderHero(list);
+  renderBoard(list.slice(1));
+  renderActivity();
+}
+
+document.getElementById('tab-alltime').onclick = () => { activeTab='alltime'; setTab(); };
+document.getElementById('tab-today').onclick = () => { activeTab='today'; setTab(); };
+function setTab(){
+  document.getElementById('tab-alltime').classList.toggle('active', activeTab==='alltime');
+  document.getElementById('tab-today').classList.toggle('active', activeTab==='today');
+  render();
+}
+
+// Submit-idea modal
+const overlay = document.getElementById('modal-overlay');
+const mCat = document.getElementById('m-cat');
+CATEGORIES.filter(c => c !== 'Todas').forEach(c => {
+  const o = document.createElement('option'); o.value = c; o.textContent = c; mCat.appendChild(o);
+});
+document.getElementById('open-submit').onclick = () => overlay.classList.add('open');
+document.getElementById('m-cancel').onclick = () => overlay.classList.remove('open');
+document.getElementById('m-submit').onclick = () => {
+  const title = document.getElementById('m-title').value.trim();
+  const pitch = document.getElementById('m-pitch').value.trim();
+  const cat = mCat.value;
+  const price = parseInt(document.getElementById('m-price').value, 10);
+  if(!title || !price || price <= 0){
+    alert('Escribe un título y una puja válida.');
+    return;
+  }
+  ideas.push({title, pitch: pitch || 'Sin descripción todavía.', cat, price, mins: 0});
+  activity.unshift({who:'tú', verb:'propusiste', what:title, price, when:'ahora mismo'});
+  activity = activity.slice(0, 6);
+  overlay.classList.remove('open');
+  document.getElementById('m-title').value = '';
+  document.getElementById('m-pitch').value = '';
+  document.getElementById('m-price').value = '';
+  render();
+};
+
+render();
+</script>
+</body>
+</html>
