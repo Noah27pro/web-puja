@@ -309,7 +309,10 @@ function renderHero(list){
     </div>
     <div class="hint">Para liderar el ranking, tu aportación debe ser superior a ${fmt(top.price)}.</div>
   `;
-  document.getElementById('hero-claim').onclick = () => claim(top, document.getElementById('hero-bid').value);
+  document.getElementById('hero-claim').onclick = () => {
+    overlay.classList.add('open');
+    document.getElementById('m-price').value = top.price + 1;
+  };
 }
 
 function renderBoard(list){
