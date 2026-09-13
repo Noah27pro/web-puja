@@ -295,13 +295,34 @@ const stripe = Stripe(STRIPE_PUBLIC_KEY);
 const CATEGORIES = ["Todas","Rara","Tecnología","Sostenibilidad","Bien social","Social","Juegos","Negocio","Arte","Comida"];
 
 let ideas = [
-  {title:"Una idea increíble para empezar", pitch:"La primera gran idea de la plataforma.", cat:"Tecnología", price:1, mins:10},
+  {title:"Máquina expendedora que da consejos en vez de aperitivos", pitch:"Metes una moneda, sale un consejo honesto de un desconocido anónimo.", cat:"Rara", price:8412, mins:14},
+  {title:"Cinta de embalaje compostable con sellos reutilizables", pitch:"Cierra cajas sin dejar residuo plástico detrás.", cat:"Sostenibilidad", price:6050, mins:40},
+  {title:"Caja de suscripción que te envía literalmente nada", pitch:"A propósito: para que por fin ordenes tu casa.", cat:"Rara", price:5220, mins:65},
+  {title:"Auriculares que también cancelan los silencios incómodos", pitch:"Cancelación activa de ruido... y de tensión social.", cat:"Tecnología", price:4900, mins:90},
+  {title:"App de citas que empareja por cómo cargas el lavavajillas", pitch:"La compatibilidad real empieza en la cocina.", cat:"Social", price:4300, mins:120},
+  {title:"Carnet de biblioteca que también es un chequeo emocional", pitch:"Devuelve un libro, cuenta cómo estás, sin presión.", cat:"Bien social", price:3760, mins:150},
+  {title:"IA que escribe tus respuestas automáticas con tu sentido del humor", pitch:"Fuera de la oficina, pero sonando como tú.", cat:"Tecnología", price:3400, mins:180},
+  {title:"Robot diminuto que riega plantas y juzga tus decisiones", pitch:"Con cariño, pero te lo va a decir.", cat:"Rara", price:3120, mins:210},
+  {title:"Farolas que se apagan como un atardecer, no de golpe", pitch:"Menos consumo, más poesía urbana.", cat:"Sostenibilidad", price:2900, mins:240},
+  {title:"Juego de mesa cuyas reglas cambian cada vez que alguien gana", pitch:"Nunca dominas del todo, nunca te aburres del todo.", cat:"Juegos", price:2640, mins:300},
+  {title:"Microseguro para primeras citas", pitch:"Cubre el mal rato, no el corazón roto.", cat:"Negocio", price:2300, mins:360},
+  {title:"Una tipografía que se vuelve ilegible cuanto más enfadado suena tu email", pitch:"El diseño como freno de mano emocional.", cat:"Tecnología", price:2010, mins:420},
+  {title:"Red de neveras solidarias con mapa en vivo de lo que hay dentro", pitch:"Comida que no se desperdicia, vecinos que se cuidan.", cat:"Bien social", price:1860, mins:480},
+  {title:"Gimnasio con máquinas alimentadas por tu propio scroll infinito", pitch:"Convierte el tiempo perdido en energía real.", cat:"Rara", price:1640, mins:540},
+  {title:"Paraguas que se alquilan entre desconocidos y se devuelven en cualquier ciudad", pitch:"Nunca vuelve a llover sobre tu cabeza.", cat:"Sostenibilidad", price:1420, mins:600},
+  {title:"Podcast hecho enteramente de gente intentando recordar sus sueños", pitch:"Diez minutos de niebla mental compartida.", cat:"Arte", price:1150, mins:660},
+  {title:"Menú de restaurante que te muestra cuál fue tu único plato lamentado", pitch:"La carta que aprende de tus arrepentimientos.", cat:"Comida", price:980, mins:720},
+  {title:"Bandeja de entrada compartida solo para 'como bien indiqué en mi último correo'", pitch:"Un archivo colectivo de la paciencia perdida.", cat:"Negocio", price:760, mins:780},
+  {title:"Piano callejero que solo suena en la tonalidad que la cuadra decide", pitch:"Música democrática, una tecla a la vez.", cat:"Arte", price:540, mins:840},
+  {title:"Banco público que dice a cuántos desconocidos sentó hoy", pitch:"Estadísticas silenciosas de descanso compartido.", cat:"Rara", price:310, mins:900},
 ];
 
 let activeCat = "Todas";
 let activeTab = "alltime";
 let activity = [
-  {who:"Usuario Anónimo", verb:"propuso", what:"Una idea increíble para empezar", price:1, when:"hace 10 min"},
+  {who:"Alguien anónimo", verb:"ha subido el ranking de", what:"Máquina expendedora que da consejos", price:8412, when:"hace 3 min"},
+  {who:"Un vecino curioso", verb:"entró al ranking con", what:"Cinta de embalaje compostable", price:6050, when:"hace 40 min"},
+  {who:"Una idealista", verb:"ha subido el ranking de", what:"App de citas del lavavajillas", price:4300, when:"hace 2 h"},
 ];
 
 const board = document.getElementById('board');
