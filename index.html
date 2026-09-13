@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>luxutain.men — lidera el ranking con tu idea</title>
-<script src="https://js.stripe.com/v3/"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -233,8 +232,8 @@
 
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
-    <h3>Publica la idea que tienes en mente</h3>
-    <p class="desc">Escríbela y decide cuánto pujas. Cuanto más pujes por encima de las demás, más arriba aparecerá y antes se hará el puesto #1.</p>
+    <h3 id="m-title-modal">Publica la idea que tienes en mente</h3>
+    <p class="desc" id="m-desc-modal">Escríbela y decide cuánto inviertes. Cuanto más pagues por encima de las demás, más arriba aparecerás en el ranking.</p>
     <label>Título de la idea</label>
     <input id="m-title" maxlength="70" placeholder="Ej: Paraguas que se prestan entre desconocidos">
     <label>Descripción breve</label>
@@ -245,7 +244,23 @@
     <input id="m-price" type="number" min="1" placeholder="Ej: 500">
     <div class="modal-actions">
       <button class="btn-cancel" id="m-cancel">Cancelar</button>
-      <button class="btn-submit" id="m-submit">Publicar e invertir</button>
+      <button class="btn-submit" id="m-submit">Continuar al pago</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="payment-overlay">
+  <div class="modal">
+    <h3>💳 Instrucciones de Pago</h3>
+    <p class="desc">Para confirmar tu puesto en el ranking, debes enviar el monto indicado a través de <strong>Bizum</strong>.</p>
+    <div style="background: var(--void); border: 1px dashed var(--glow); padding: 15px; text-align: center; margin: 20px 0; border-radius: 10px;">
+      <span style="display: block; color: var(--muted); font-size: 12px; margin-bottom: 5px;">Enviar monto a:</span>
+      <strong style="font-size: 22px; color: var(--ink); font-family: 'IBM Plex Mono';">681 87 68 85</strong>
+    </div>
+    <p id="payment-detail" style="font-size: 14px; text-align: center; margin-bottom: 20px; font-weight: 600;"></p>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="p-cancel">Cancelar</button>
+      <button class="btn-submit" id="p-whatsapp">Confirmar por WhatsApp</button>
     </div>
   </div>
 </div>
@@ -395,29 +410,37 @@ function setTab(){
 
 // Submit-idea modal
 const overlay = document.getElementById('modal-overlay');
+const pOverlay = document.getElementById('payment-overlay');
 const mCat = document.getElementById('m-cat');
 CATEGORIES.filter(c => c !== 'Todas').forEach(c => {
   const o = document.createElement('option'); o.value = c; o.textContent = c; mCat.appendChild(o);
 });
 document.getElementById('open-submit').onclick = () => overlay.classList.add('open');
 document.getElementById('m-cancel').onclick = () => overlay.classList.remove('open');
+
 document.getElementById('m-submit').onclick = () => {
   const title = document.getElementById('m-title').value.trim();
   const pitch = document.getElementById('m-pitch').value.trim();
   const cat = mCat.value;
   const price = parseInt(document.getElementById('m-price').value, 10);
   if(!title || !price || price <= 0){
-    alert('Escribe un título y una puja válida.');
+    alert('Escribe un título y una inversión válida.');
     return;
   }
-  ideas.push({title, pitch: pitch || 'Sin descripción todavía.', cat, price, mins: 0});
-  activity.unshift({who:'tú', verb:'entró al ranking con', what:title, price, when:'ahora mismo'});
-  activity = activity.slice(0, 6);
+
+  // Mostrar modal de pago
+  document.getElementById('payment-detail').textContent = `Monto a enviar: ${price}€ por la idea "${title}"`;
   overlay.classList.remove('open');
-  document.getElementById('m-title').value = '';
-  document.getElementById('m-pitch').value = '';
-  document.getElementById('m-price').value = '';
-  render();
+  pOverlay.classList.add('open');
+};
+
+document.getElementById('p-cancel').onclick = () => pOverlay.classList.remove('open');
+document.getElementById('p-whatsapp').onclick = () => {
+  const title = document.getElementById('m-title').value.trim();
+  const price = document.getElementById('m-price').value;
+  const message = `Hola! He enviado ${price}€ por Bizum para subir al ranking la idea: "${title}". Adjunto el comprobante.`;
+  window.open(`https://wa.me/681876885?text=${encodeURIComponent(message)}`, '_blank');
+  pOverlay.classList.remove('open');
 };
 
 render();
