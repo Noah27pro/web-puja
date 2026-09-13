@@ -466,12 +466,14 @@ document.getElementById('open-submit').onclick = () => overlay.classList.add('op
 document.getElementById('m-cancel').onclick = () => overlay.classList.remove('open');
 
 document.getElementById('m-submit').onclick = () => {
+  const name = document.getElementById('m-name').value.trim();
   const title = document.getElementById('m-title').value.trim();
   const pitch = document.getElementById('m-pitch').value.trim();
   const cat = mCat.value;
   const price = parseInt(document.getElementById('m-price').value, 10);
-  if(!title || !price || price <= 0){
-    alert('Escribe un título y una inversión válida.');
+
+  if(!name || !title || !pitch || !price || price <= 0){
+    alert('Por favor, rellena todos los campos correctamente para continuar.');
     return;
   }
 
